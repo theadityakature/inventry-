@@ -1,0 +1,165 @@
+<app-navbar class=""></app-navbar>
+<!-- Dashboard Content -->
+      <div class="dashboard-content">
+        <!-- Metrics Grid -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-header">
+              <div>
+                <div class="metric-title">TOTAL PRODUCTS</div>
+                <div class="metric-value">1,250</div>
+              </div>
+              <div class="metric-icon bg-primary">
+                <i class="fas fa-box"></i>
+              </div>
+            </div>
+            <div class="metric-change"><i class="fas fa-arrow-up"></i> 5% new items this month</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <div>
+                <div class="metric-title">TOTAL SALES</div>
+                <div class="metric-value">$84,320</div>
+              </div>
+              <div class="metric-icon bg-success">
+                <i class="fas fa-shopping-cart"></i>
+              </div>
+            </div>
+            <div class="metric-change"><i class="fas fa-arrow-up"></i> 12% vs last month</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <div>
+                <div class="metric-title">PURCHASE ORDERS</div>
+                <div class="metric-value">324</div>
+              </div>
+              <div class="metric-icon bg-warning">
+                <i class="fas fa-credit-card"></i>
+              </div>
+            </div>
+            <div class="metric-change down"><i class="fas fa-arrow-down"></i> 3% vs last week</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <div>
+                <div class="metric-title">LOW STOCK ITEMS</div>
+                <div class="metric-value">27</div>
+              </div>
+              <div class="metric-icon bg-danger">
+                <i class="fas fa-exclamation-triangle"></i>
+              </div>
+            </div>
+            <div class="metric-change"><i class="fas fa-arrow-up"></i> 10 more since yesterday</div>
+          </div>
+        </div>
+
+        <!-- Two-column Layout -->
+        <div class="dashboard-grid">
+          <!-- Left Column -->
+          <div class="left-column">
+            <div class="card">
+              <div class="card-header">
+                <h2 class="card-title">Overview</h2>
+                <span class="card-actions">This Week</span>
+              </div>
+              <div class="chart-container">
+                <div class="chart-container-chart"><h1>/// bar chart ///</h1></div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <h2 class="card-title">Latest Customers</h2>
+                <span class="card-actions">View All</span>
+              </div>
+              <ul class="customer-list">
+                <li class="customer-item">
+                  <div class="customer-avatar">BS</div>
+                  <div class="customer-info">
+                    <div class="customer-name">Brooklyn Simmons</div>
+                    <div class="customer-role">Manager at Nitsubishi</div>
+                  </div>
+                </li>
+                <li class="customer-item">
+                  <div class="customer-avatar">LA</div>
+                  <div class="customer-info">
+                    <div class="customer-name">Leslie Alexander</div>
+                    <div class="customer-role">Customer Success at General Electric</div>
+                  </div>
+                </li>
+                <li class="customer-item">
+                  <div class="customer-avatar">JB</div>
+                  <div class="customer-info">
+                    <div class="customer-name">Jeroen Bell</div>
+                    <div class="customer-role">Mario Carrier at Nintendo</div>
+                  </div>
+                </li>
+                <li class="customer-item">
+                  <div class="customer-avatar">JJ</div>
+                  <div class="customer-info">
+                    <div class="customer-name">Jim Jones</div>
+                    <div class="customer-role">Reliability Engineer at eBay</div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Right Column -->
+          <div class="right-column">
+            <div class="card">
+              <div class="card-header">
+                <h2 class="card-title">Activity TRIALS</h2>
+                <span class="metric-value">32.79%</span>
+              </div>
+              <ul class="progress-list">
+                <li class="progress-item">
+                  <div class="progress-title">Add your personal information</div>
+                  <div class="progress-action">Go Profile Edit</div>
+                </li>
+                <li class="progress-item">
+                  <div class="progress-title">Verify your phone</div>
+                  <div class="progress-action">Send Verification SMS</div>
+                </li>
+                <li class="progress-item">
+                  <div class="progress-title">Verify your Face ID</div>
+                  <div class="progress-action">Upload Pictures</div>
+                </li>
+                <li class="progress-item">
+                  <div class="progress-title">Give permission for personal data</div>
+                  <div class="progress-action">View Agreement</div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    <script>
+      // Simple JavaScript to handle navigation active state
+      document.addEventListener('DOMContentLoaded', function () {
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        navLinks.forEach((link) => {
+          link.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            // Remove active class from all links
+            navLinks.forEach((item) => item.classList.remove('active'));
+
+            // Add active class to clicked link
+            this.classList.add('active');
+          });
+        });
+      });
+      // highlight active menu link
+      document.querySelectorAll('.nav-link').forEach((link) => {
+        if (link.getAttribute('href') === window.location.pathname) {
+          link.classList.add('active');
+        }
+      });
+    </script>

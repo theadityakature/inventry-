@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SaaS Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      :root {
+        --primary: #4f46e5;
+        --primary-dark: #4338ca;
+        --secondary: #10b981;
+        --danger: #ef4444;
+        --warning: #f59e0b;
+        --info: #3b82f6;
+        --light: #f8fafc;
+        --dark: #1e293b;
+        --gray: #64748b;
+        --border: #e2e8f0;
+        --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.04);
+        --sidebar-width: 80px;
+        --header-height: 70px;
+        --transition: all 0.3s ease;
+      }
+
+      body {
+        display: flex;
+        background-color: #f1f5f9;
+        color: var(--dark);
+        min-height: 100vh;
+      }
+
+      /* Icon-Only Sidebar Navigation */
+      .sidebar {
+        width: var(--sidebar-width);
+        background: white;
+        box-shadow: var(--card-shadow);
+        padding: 1.5rem 0.5rem;
+        display: flex;
+        flex-direction: column;
+        transition: var(--transition);
+        z-index: 100;
+        height: 100vh;
+        position: fixed;
+        left: 0;
+        top: 0;
+        overflow: visible;
+      }
+
+      .logo-container {
+        display: flex;
+        align-items: center;
+        margin-bottom: 2rem;
+        padding: 0 0.5rem;
+        justify-content: center;
+      }
+
+      .logo {
+        width: 36px;
+        height: 36px;
+        background: var(--primary);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+      }
+
+      .nav-menu {
+        list-style: none;
+        margin-top: 1rem;
+        background: white;
+        padding: 10px;
+        margin-top: 0;
+      }
+
+      .nav-item {
+        margin-bottom: 1.5rem;
+        position: relative;
+      }
+
+      .nav-link {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem;
+        text-decoration: none;
+        color: var(--gray);
+        border-radius: 8px;
+        transition: var(--transition);
+        justify-content: center;
+      }
+
+      .nav-link:hover {
+        background-color: #f1f5f9;
+        color: var(--primary);
+      }
+
+      .nav-link.active {
+        background-color: #eff6ff;
+        color: var(--primary);
+        font-weight: 500;
+      }
+
+      .nav-link i {
+        font-size: 1.25rem;
+        width: 24px;
+        text-align: center;
+      }
+
+      .nav-tooltip {
+        position: absolute;
+        left: 60px; /* distance to the right of the icon */
+        top: 50%; /* center vertically */
+        transform: translateY(-50%);
+        background: var(--dark, #111827);
+        color: #fff;
+        padding: 0.4rem 0.75rem;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        white-space: nowrap;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity 0.2s ease, left 0.2s ease;
+        z-index: 1000;
+      }
+
+      /* little arrow */
+      .nav-tooltip::before {
+        content: '';
+        position: absolute;
+        left: -5px;
+        top: 50%;
+        transform: translateY(-50%);
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        border-right: 5px solid var(--dark, #111827);
+      }
+
+      /* show tooltip on hover */
+      .nav-item:hover .nav-tooltip {
+        opacity: 1;
+        visibility: visible;
+        left: 50px; /* small slide-in effect */
+      }
+      .nav-link.active {
+        background-color: var(--dark, #64748b); /* dark background */
+        color: #fff; /* white text/icon */
+        font-weight: 600;
+      }
+
+      /* Show tooltip on hover */
+
+      /* Main Content Area */
+      .main-content {
+        flex: 1;
+        padding-left: 20px;
+        padding-right: 20px;
+        margin-left: var(--sidebar-width);
+        transition: var(--transition);
+      }
+
+      .header {
+        height: var(--header-height);
+        background: white;
+        box-shadow: var(--card-shadow);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 2rem;
+        position: sticky;
+        top: 0;
+        z-index: 99;
+      }
+
+      .search-bar {
+        display: flex;
+        align-items: center;
+        background: var(--light);
+        border-radius: 8px;
+        padding: 0.5rem 1rem;
+        width: 300px;
+      }
+
+      .search-bar input {
+        border: none;
+        background: transparent;
+        padding: 0.5rem;
+        width: 100%;
+        outline: none;
+      }
+
+      .user-profile {
+        display: flex;
+        align-items: center;
+      }
+
+      .user-info {
+        margin-right: 1rem;
+        text-align: right;
+      }
+
+      .user-name {
+        font-weight: 500;
+      }
+
+      .user-role {
+        font-size: 0.875rem;
+        color: var(--gray);
+      }
+
+      .user-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: lightskyblue;
+        font-weight: 500;
+      }
+
+      /* Dashboard Content */
+      .dashboard-content {
+        padding-left: 30px;
+        padding-top: 2rem;
+      }
+
+      .metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .metric-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: var(--card-shadow);
+        display: flex;
+        flex-direction: column;
+      }
+
+      .metric-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+
+      .metric-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+      }
+
+      .bg-primary {
+        background: #eff6ff;
+        color: var(--primary);
+      }
+
+      .bg-success {
+        background: #ecfdf5;
+        color: var(--secondary);
+      }
+
+      .bg-warning {
+        background: #fffbeb;
+        color: var(--warning);
+      }
+
+      .bg-info {
+        background: #eff6ff;
+        color: var(--info);
+      }
+
+      .metric-title {
+        color: var(--gray);
+        font-size: 0.875rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .metric-value {
+        font-size: 1.75rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+
+      .metric-change {
+        display: flex;
+        align-items: center;
+        color: #10b981;
+        font-size: 0.875rem;
+        font-weight: 500;
+      }
+
+      .metric-change.down {
+        color: var(--danger);
+      }
+
+      /* Two-column layout */
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 1.5rem;
+      }
+
+      .card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: var(--card-shadow);
+        margin-top: 20px;
+      }
+
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .card-title {
+        font-size: 1.125rem;
+        font-weight: 600;
+      }
+
+      .card-actions {
+        color: var(--primary);
+        font-size: 0.875rem;
+        font-weight: 500;
+        cursor: pointer;
+      }
+
+      /* Chart styles */
+      .chart-container {
+        margin-top: 1rem;
+        height: 300px;
+        margin-bottom: 20px;
+      }
+      .chart-container-chart {
+        height: 300px;
+        position: relative;
+        border-radius: 20px;
+      }
+
+      .chart-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+
+      /* Customer list */
+      .customer-list {
+        list-style: none;
+      }
+
+      .customer-item {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .customer-item:last-child {
+        border-bottom: none;
+      }
+
+      .customer-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 500;
+        margin-right: 12px;
+      }
+
+      .customer-info {
+        flex: 1;
+      }
+
+      .customer-name {
+        font-weight: 500;
+      }
+
+      .customer-role {
+        font-size: 0.875rem;
+        color: var(--gray);
+      }
+
+      /* Progress list */
+      .progress-list {
+        list-style: none;
+      }
+
+      .progress-item {
+        padding: 1rem 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .progress-item:last-child {
+        border-bottom: none;
+      }
+
+      .progress-title {
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+      }
+
+      .progress-action {
+        color: var(--primary);
+        font-size: 0.875rem;
+        font-weight: 500;
+        cursor: pointer;
+        display: inline-block;
+        margin-top: 0.5rem;
+      }
+
+      /* Responsive */
+      @media (max-width: 992px) {
+        .dashboard-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .sidebar {
+          width: 60px;
+          padding: 1rem 0.25rem;
+        }
+
+        .main-content {
+          margin-left: 0px;
+        }
+
+        .search-bar {
+          width: 200px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Icon-Only Sidebar Navigation -->
+    <ul class="nav-menu">
+      <li class="nav-item">
+        <a routerLink="/dashboard" routerLinkActive="active" class="nav-link">
+          <i class="fas fa-home"></i>
+          <span class="nav-tooltip">Dashboard</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a routerLink="/shop" routerLinkActive="active" class="nav-link">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="nav-tooltip">Shop</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a routerLink="/purchase" routerLinkActive="active" class="nav-link">
+          <i class="fas fa-credit-card"></i>
+          <span class="nav-tooltip">Purchase</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a routerLink="/products" routerLinkActive="active" class="nav-link">
+          <i class="fas fa-box"></i>
+          <span class="nav-tooltip">Products</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a routerLink="/settings" routerLinkActive="active" class="nav-link">
+          <i class="fas fa-cog"></i>
+          <span class="nav-tooltip">Settings</span>
+        </a>
+      </li>
+    </ul>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="header">
+        <div class="search-bar">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Search..." />
+        </div>
+        <div class="user-profile">
+          <div class="user-info">
+            <div class="user-name">John Doe</div>
+            <div class="user-role">Admin</div>
+          </div>
+          <div class="user-avatar">JD</div>
+        </div>
+      </header>
+
+      <!-- Dashboard Content -->
+      <div class="dashboard-content">
+        <!-- Metrics Grid -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-header">
+              <div>
+                <div class="metric-title">TOTAL PRODUCTS</div>
+                <div class="metric-value">1,250</div>
+              </div>
+              <div class="metric-icon bg-primary">
+                <i class="fas fa-box"></i>
+              </div>
+            </div>
+            <div class="metric-change"><i class="fas fa-arrow-up"></i> 5% new items this month</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <div>
+                <div class="metric-title">TOTAL SALES</div>
+                <div class="metric-value">$84,320</div>
+              </div>
+              <div class="metric-icon bg-success">
+                <i class="fas fa-shopping-cart"></i>
+              </div>
+            </div>
+            <div class="metric-change"><i class="fas fa-arrow-up"></i> 12% vs last month</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <div>
+                <div class="metric-title">PURCHASE ORDERS</div>
+                <div class="metric-value">324</div>
+              </div>
+              <div class="metric-icon bg-warning">
+                <i class="fas fa-credit-card"></i>
+              </div>
+            </div>
+            <div class="metric-change down"><i class="fas fa-arrow-down"></i> 3% vs last week</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <div>
+                <div class="metric-title">LOW STOCK ITEMS</div>
+                <div class="metric-value">27</div>
+              </div>
+              <div class="metric-icon bg-danger">
+                <i class="fas fa-exclamation-triangle"></i>
+              </div>
+            </div>
+            <div class="metric-change"><i class="fas fa-arrow-up"></i> 10 more since yesterday</div>
+          </div>
+        </div>
+
+        <!-- Two-column Layout -->
+        <div class="dashboard-grid">
+          <!-- Left Column -->
+          <div class="left-column">
+            <div class="card">
+              <div class="card-header">
+                <h2 class="card-title">Overview</h2>
+                <span class="card-actions">This Week</span>
+              </div>
+              <div class="chart-container">
+                <div class="chart-container-chart"><h1>/// bar chart ///</h1></div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <h2 class="card-title">Latest Customers</h2>
+                <span class="card-actions">View All</span>
+              </div>
+              <ul class="customer-list">
+                <li class="customer-item">
+                  <div class="customer-avatar">BS</div>
+                  <div class="customer-info">
+                    <div class="customer-name">Brooklyn Simmons</div>
+                    <div class="customer-role">Manager at Nitsubishi</div>
+                  </div>
+                </li>
+                <li class="customer-item">
+                  <div class="customer-avatar">LA</div>
+                  <div class="customer-info">
+                    <div class="customer-name">Leslie Alexander</div>
+                    <div class="customer-role">Customer Success at General Electric</div>
+                  </div>
+                </li>
+                <li class="customer-item">
+                  <div class="customer-avatar">JB</div>
+                  <div class="customer-info">
+                    <div class="customer-name">Jeroen Bell</div>
+                    <div class="customer-role">Mario Carrier at Nintendo</div>
+                  </div>
+                </li>
+                <li class="customer-item">
+                  <div class="customer-avatar">JJ</div>
+                  <div class="customer-info">
+                    <div class="customer-name">Jim Jones</div>
+                    <div class="customer-role">Reliability Engineer at eBay</div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Right Column -->
+          <div class="right-column">
+            <div class="card">
+              <div class="card-header">
+                <h2 class="card-title">Activity TRIALS</h2>
+                <span class="metric-value">32.79%</span>
+              </div>
+              <ul class="progress-list">
+                <li class="progress-item">
+                  <div class="progress-title">Add your personal information</div>
+                  <div class="progress-action">Go Profile Edit</div>
+                </li>
+                <li class="progress-item">
+                  <div class="progress-title">Verify your phone</div>
+                  <div class="progress-action">Send Verification SMS</div>
+                </li>
+                <li class="progress-item">
+                  <div class="progress-title">Verify your Face ID</div>
+                  <div class="progress-action">Upload Pictures</div>
+                </li>
+                <li class="progress-item">
+                  <div class="progress-title">Give permission for personal data</div>
+                  <div class="progress-action">View Agreement</div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      // Simple JavaScript to handle navigation active state
+      document.addEventListener('DOMContentLoaded', function () {
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        navLinks.forEach((link) => {
+          link.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            // Remove active class from all links
+            navLinks.forEach((item) => item.classList.remove('active'));
+
+            // Add active class to clicked link
+            this.classList.add('active');
+          });
+        });
+      });
+      // highlight active menu link
+      document.querySelectorAll('.nav-link').forEach((link) => {
+        if (link.getAttribute('href') === window.location.pathname) {
+          link.classList.add('active');
+        }
+      });
+    </script>
+  </body>
+</html>

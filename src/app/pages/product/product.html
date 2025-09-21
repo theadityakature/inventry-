@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Management System</title>
+    <link rel="stylesheet" href="product.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="header-content">
+          <h1><i class="fas fa-boxes"></i> Manage Product</h1>
+          <button class="btn btn-primary" (click)="openAddModal()">
+            <i class="fas fa-plus"></i> Add New Product
+          </button>
+        </div>
+
+        <div class="search-section">
+          <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input
+              type="text"
+              [(ngModel)]="searchTerm"
+              placeholder="Search products..."
+              (input)="filterProducts()"
+            />
+          </div>
+
+          <div class="filter-select">
+            <select [(ngModel)]="selectedCategory" (change)="filterProducts()">
+              <option value="">All Categories</option>
+              <option value="Mobile Phones">Mobile Phones</option>
+              <option value="Laptops">Laptops</option>
+              <option value="Tablets">Tablets</option>
+              <option value="Accessories">Accessories</option>
+            </select>
+          </div>
+
+          <div class="filter-select">
+            <select [(ngModel)]="selectedStatus" (change)="filterProducts()">
+              <option value="">All Status</option>
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+          </div>
+        </div>
+      </header>
+
+      <main class="main-content">
+        <table class="products-table">
+          <thead>
+            <tr>
+              <th>Product Name</th>
+              <th>Brand</th>
+              <th>Model</th>
+              <th>Specifications</th>
+              <th>Price</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="productsTableBody">
+            <tr *ngFor="let product of paginatedProducts">
+              <td>{{ product.name }}</td>
+              <td>{{ product.brand }}</td>
+              <td>{{ product.model }}</td>
+              <td>{{ product.ram }}/{{ product.storage }}, {{ product.color }}</td>
+              <td>${{ product.price | number : '1.2-2' }}</td>
+              <td [class]="'status-' + product.status.toLowerCase()">{{ product.status }}</td>
+              <td class="action-buttons">
+                <button class="btn btn-edit" (click)="editProduct(product)">
+                  <i class="fas fa-edit"></i> Edit
+                </button>
+                <button class="btn btn-delete" (click)="deleteProduct(product.productId)">
+                  <i class="fas fa-trash"></i> Delete
+                </button>
+              </td>
+            </tr>
+            <tr *ngIf="paginatedProducts.length === 0">
+              <td colspan="7" class="no-products">No products found</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="pagination" *ngIf="filteredProducts.length > 0">
+          <div class="pagination-info">
+            Showing {{ getStartIndex() }} to {{ getEndIndex() }} of
+            {{ filteredProducts.length }} products
+          </div>
+
+          <div class="pagination-controls">
+            <div class="page-numbers">
+              <button class="page-btn" (click)="previousPage()" [disabled]="currentPage === 1">
+                <i class="fas fa-chevron-left"></i>
+              </button>
+
+              <button
+                *ngFor="let page of getPageNumbers()"
+                class="page-btn"
+                [class.active]="page === currentPage"
+                (click)="goToPage(page)"
+                [disabled]="page === '...'"
+              >
+                {{ page }}
+              </button>
+
+              <button class="page-btn" (click)="nextPage()" [disabled]="currentPage === totalPages">
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Add/Edit Product Modal -->
+    <div class="modal" [class.show]="showModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>{{ newProduct.productId ? 'Edit' : 'Add' }} Product</h2>
+          <span class="close" (click)="closeModal()">&times;</span>
+        </div>
+
+        <form (ngSubmit)="addProduct()" #productForm="ngForm">
+          <input type="hidden" [(ngModel)]="newProduct.productId" name="productId" id="productId" />
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Product Name *</label>
+              <input id="name" type="text" [(ngModel)]="newProduct.name" name="name" required />
+            </div>
+            <div class="form-group">
+              <label for="brand">Brand *</label>
+              <input id="brand" type="text" [(ngModel)]="newProduct.brand" name="brand" required />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="model">Model *</label>
+              <input id="model" type="text" [(ngModel)]="newProduct.model" name="model" required />
+            </div>
+            <div class="form-group">
+              <label for="ram">RAM *</label>
+              <select id="ram" [(ngModel)]="newProduct.ram" name="ram" required>
+                <option value="">Select RAM</option>
+                <option value="4GB">4GB</option>
+                <option value="6GB">6GB</option>
+                <option value="8GB">8GB</option>
+                <option value="12GB">12GB</option>
+                <option value="16GB">16GB</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="storage">Storage *</label>
+              <select id="storage" [(ngModel)]="newProduct.storage" name="storage" required>
+                <option value="">Select Storage</option>
+                <option value="64GB">64GB</option>
+                <option value="128GB">128GB</option>
+                <option value="256GB">256GB</option>
+                <option value="512GB">512GB</option>
+                <option value="1TB">1TB</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="color">Color *</label>
+              <input id="color" type="text" [(ngModel)]="newProduct.color" name="color" required />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="price">Price ($) *</label>
+              <input
+                id="price"
+                type="number"
+                [(ngModel)]="newProduct.price"
+                name="price"
+                step="0.01"
+                min="0"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="accessories">Accessories *</label>
+              <input
+                id="accessories"
+                type="text"
+                [(ngModel)]="newProduct.accessories"
+                name="accessories"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="warranty">Warranty *</label>
+              <select id="warranty" [(ngModel)]="newProduct.warranty" name="warranty" required>
+                <option value="">Select Warranty</option>
+                <option value="No Warranty">No Warranty</option>
+                <option value="3 Months">3 Months</option>
+                <option value="6 Months">6 Months</option>
+                <option value="1 Year">1 Year</option>
+                <option value="2 Years">2 Years</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="status">Status *</label>
+              <select id="status" [(ngModel)]="newProduct.status" name="status" required>
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+              </select>
+            </div>
+          </div>
+         <div class="buttonsflex">
+          <button type="submit" class="btn btn-submit">
+            <i class="fas fa-plus"></i> {{ newProduct.productId ? 'Update' : 'Add' }} Product
+          </button>
+          <button type="button" class="btn btn-cancel" (click)="closeModal()">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+   <div class="toast-container" 
+     [class.show]="showToast" 
+     [class.success]="toastType === 'success'" 
+     [class.error]="toastType === 'error'" 
+     [class.warning]="toastType === 'warning'">
+
+  <div class="toast-content">
+    <!-- ✅ Direct icon binding using ngIf for each type -->
+    <i class="toast-icon fa fa-check-circle" *ngIf="toastType === 'success'"></i>
+    <i class="toast-icon fa fa-times-circle" *ngIf="toastType === 'error'"></i>
+    <i class="toast-icon fa fa-exclamation-circle" *ngIf="toastType === 'warning'"></i>
+
+    <span class="toast-message">{{ toastMessage }}</span>
+    <button class="toast-close" (click)="hideNotification()">&times;</button>
+  </div>
+
+</div>
+
+  </body>
+</html>

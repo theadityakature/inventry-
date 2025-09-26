@@ -5,10 +5,11 @@ import { Navbar } from './navbar/navbar';
 import { FormsModule } from '@angular/forms';
 import { Dashbord } from './pages/dashbord/dashbord';
 import { CommonModule } from '@angular/common';
+import { Productdetails } from './pages/productdetails/productdetails';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,Navbar,Dashbord,FormsModule,CommonModule],
+  imports: [RouterOutlet,Navbar,Dashbord,FormsModule,CommonModule,Productdetails],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

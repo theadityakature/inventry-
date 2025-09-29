@@ -1,15 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SaaS Dashboard</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-  </head>
-  <body>
+
  
 <!-- Sidebar/Navbar Component -->
 <div [class.navbar-mode]="isNavbar">
@@ -49,9 +38,36 @@
         <span class="nav-tooltip">Settings</span>
       </a>
     </li>
+     <!-- Team Selector -->
+    <li class="nav-item team-selector">
+      <div class="team-current" (click)="toggleTeamSelector()" [class.open]="showTeamSelector">
+        <a class="nav-link">
+          <i class="fas fa-palette"></i>
+        </a>
+      </div>
+  <div class="team-options" *ngIf="showTeamSelector">
+    <div 
+      *ngFor="let team of teams" 
+      class="team-option" 
+      (click)="selectTeam(team)"
+      [class.selected]="team.id === selectedTeam.id"
+      [style.background]="team.primaryColor"
+      [title]="team.name"
+    ></div>
+  </div>
+</li>
+
+    
+    <!-- Layout Toggle -->
+    <li class="nav-item">
+      <span class="toggle-label">{{ isNavbar ? 'Navbar' : 'Sidebar' }}</span>
+      <label class="switch">
+        <input type="checkbox" [checked]="isNavbar" (change)="toggleSidebar($event)" />
+        <span class="slider round"></span>
+      </label>
+    </li>
   </ul>
 </div>
-
 
 
     <!-- Main Content -->
@@ -63,6 +79,9 @@
           <input type="text" placeholder="Search..." />
         </div>
         <div class="user-profile">
+
+       
+  
           <span class="toggle-label">{{ isNavbar ? 'Navbar' : 'Sidebar' }}</span>
   <label class="switch">
     <input type="checkbox" [checked]="isNavbar" (change)="toggleSidebar($event)" />
@@ -236,5 +255,4 @@
         }
       });
     </script>
-  </body>
-</html>
+  

@@ -73,6 +73,7 @@
         background: white;
         padding: 10px;
         margin-top: 0;
+        width: 80px;
       }
 
       .nav-item {
@@ -159,6 +160,7 @@
         padding-right: 20px;
         margin-left: var(--sidebar-width);
         transition: var(--transition);
+        background: #f1f5f9;
       }
 
       .header {
@@ -670,3 +672,276 @@ input:checked + .slider:before {
     right: 0.5rem;
   }
 }
+
+
+
+:root {
+  --team-primary: #3b82f6;
+  --team-secondary: #dbeafe;
+  --team-icon: #1e40af;
+}
+
+/* Navbar/Sidebar base styles */
+.nav-menu {
+  transition: all 0.3s ease;
+  background: var(--team-secondary);
+}
+
+.nav-link {
+  color: #333;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  background-color: var(--team-primary);
+  color: white;
+}
+
+.nav-link.active {
+  background-color: var(--team-primary);
+  color: white;
+}
+
+.nav-link i {
+  color: var(--team-icon);
+}
+
+.nav-link:hover i,
+.nav-link.active i {
+  color: white;
+}
+
+/* Team Selector Styles */
+.team-selector {
+  position: relative;
+  margin-top: auto;
+}
+
+.team-current {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.team-current:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.team-color-indicator {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.team-name {
+  flex: 1;
+  font-weight: 500;
+}
+
+.team-options {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  margin-bottom: 10px;
+}
+
+.team-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #f0f0f0;
+  transition: all 0.3s ease;
+  border-radius: 50%;
+}
+
+.team-option:last-child {
+  border-bottom: none;
+}
+
+.team-option:hover {
+  background-color: #f5f5f5;
+}
+
+.team-option.selected {
+  background-color: var(--team-secondary);
+}
+
+/* Layout Toggle */
+.toggle-label {
+  font-size: 12px;
+  margin-right: 8px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: var(--team-primary);
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+.slider.round {
+  border-radius: 24px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/* Navbar mode styles */
+
+.navbar-mode .team-options {
+  bottom: auto;
+  top: 100%;
+  left: 0;
+  right: auto;
+  min-width: 150px;
+  
+}
+
+
+
+
+
+/* Container for the nav item */
+.nav-item.team-selector {
+  position: relative;
+  list-style: none;
+  cursor: pointer;
+}
+
+/* The current selected team box */
+.team-current {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 10px;
+  border-radius: 8px;
+  background-color: #f0f0f0;
+  transition: background 0.2s;
+  height: 40px;
+  width: 40px;
+  
+}
+
+.team-current:hover {
+  background-color: #e0e0e0;
+}
+
+/* The small colored circle */
+.team-color-indicator {
+  width: 70px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+}
+
+/* Chevron icon */
+.team-current i {
+  font-size: 36px;
+  transition: transform 0.3s;
+}
+
+/* Rotate the icon when dropdown is open */
+.team-current.open i {
+  transform: rotate(180deg);
+}
+
+/* Dropdown container */
+.team-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 50px;
+  padding: 5px;
+  margin-top: 5px;
+  display: flex;
+  gap: 5px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  z-index: 100;
+}
+
+/* Each team option */
+.team-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  
+  
+  display: flex;           /* make flex container */
+  flex-wrap: wrap;         /* allow items to move to next row */
+  gap: 5px;                /* space between items */
+  
+  max-width: 200px;        /* optional: max width to trigger wrap */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  z-index: 100;
+  
+}
+
+.team-option:hover {
+  transform: scale(1.1);
+  border-color: #999;
+}
+
+/* Highlight selected team */
+.team-option.selected {
+  border-color: #000;
+}
+
+
+
+
+

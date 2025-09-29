@@ -139,27 +139,4 @@
       </div>
     
 
-    <script>
-      // Simple JavaScript to handle navigation active state
-      document.addEventListener('DOMContentLoaded', function () {
-        const navLinks = document.querySelectorAll('.nav-link');
-
-        navLinks.forEach((link) => {
-          link.addEventListener('click', function (e) {
-            e.preventDefault();
-
-            // Remove active class from all links
-            navLinks.forEach((item) => item.classList.remove('active'));
-
-            // Add active class to clicked link
-            this.classList.add('active');
-          });
-        });
-      });
-      // highlight active menu link
-      document.querySelectorAll('.nav-link').forEach((link) => {
-        if (link.getAttribute('href') === window.location.pathname) {
-          link.classList.add('active');
-        }
-      });
-    </script>
+   

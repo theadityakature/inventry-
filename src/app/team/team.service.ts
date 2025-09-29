@@ -17,6 +17,12 @@ export class TeamService {
   ];
 
   private selectedTeam: Team = this.teams[0];
+  
+
+  constructor() {
+    this.applyTeamStyles(this.selectedTeam);
+  }
+
 
   getTeams(): Team[] {
     return this.teams;

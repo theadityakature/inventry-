@@ -16,6 +16,8 @@ export class Navbar implements OnInit {
   selectedTeam!: Team;
   showTeamSelector = false;
 
+  
+
   constructor(private teamService: TeamService) {}
 
   ngOnInit() {

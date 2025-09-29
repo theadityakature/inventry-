@@ -1,5 +1,3 @@
-
- 
 <!-- Sidebar/Navbar Component -->
 <div [class.navbar-mode]="isNavbar">
   <!-- Icon-Only Sidebar Navigation -->
@@ -38,26 +36,25 @@
         <span class="nav-tooltip">Settings</span>
       </a>
     </li>
-     <!-- Team Selector -->
+    <!-- Team Selector -->
     <li class="nav-item team-selector">
       <div class="team-current" (click)="toggleTeamSelector()" [class.open]="showTeamSelector">
         <a class="nav-link">
           <i class="fas fa-palette"></i>
         </a>
       </div>
-  <div class="team-options" *ngIf="showTeamSelector">
-    <div 
-      *ngFor="let team of teams" 
-      class="team-option" 
-      (click)="selectTeam(team)"
-      [class.selected]="team.id === selectedTeam.id"
-      [style.background]="team.primaryColor"
-      [title]="team.name"
-    ></div>
-  </div>
-</li>
+      <div class="team-options" *ngIf="showTeamSelector">
+        <div
+          *ngFor="let team of teams"
+          class="team-option"
+          (click)="selectTeam(team)"
+          [class.selected]="team.id === selectedTeam.id"
+          [style.background]="team.primaryColor"
+          [title]="team.name"
+        ></div>
+      </div>
+    </li>
 
-    
     <!-- Layout Toggle -->
     <li class="nav-item">
       <span class="toggle-label">{{ isNavbar ? 'Navbar' : 'Sidebar' }}</span>
@@ -69,33 +66,29 @@
   </ul>
 </div>
 
-
-    <!-- Main Content -->
-    <main class="main-content" [class.navbar-mode]="isNavbar">
-      <!-- Header -->
-      <header class="header">
-        <div class="search-bar">
-          <i class="fas fa-search"></i>
-          <input type="text" placeholder="Search..." />
-        </div>
-        <div class="user-profile">
-
-       
-  
-          <span class="toggle-label">{{ isNavbar ? 'Navbar' : 'Sidebar' }}</span>
-  <label class="switch">
-    <input type="checkbox" [checked]="isNavbar" (change)="toggleSidebar($event)" />
-    <span class="slider round"></span>
-  </label>
-          <div class="user-info">
-            <div class="user-name">John Doe</div>
-            <div class="user-role">Admin</div>
-          </div>
-          <div class="user-avatar">JD</div>
-        </div>
-      </header>
-      <!-- Dashboard Content -->
-     <!-- <div class="dashboard-content">
+<!-- Main Content -->
+<main class="main-content" [class.navbar-mode]="isNavbar">
+  <!-- Header -->
+  <header class="header">
+    <div class="search-bar">
+      <i class="fas fa-search"></i>
+      <input type="text" placeholder="Search..." />
+    </div>
+    <div class="user-profile">
+      <span class="toggle-label">{{ isNavbar ? 'Navbar' : 'Sidebar' }}</span>
+      <label class="switch">
+        <input type="checkbox" [checked]="isNavbar" (change)="toggleSidebar($event)" />
+        <span class="slider round"></span>
+      </label>
+      <div class="user-info">
+        <div class="user-name">John Doe</div>
+        <div class="user-role">Admin</div>
+      </div>
+      <div class="user-avatar">JD</div>
+    </div>
+  </header>
+  <!-- Dashboard Content -->
+  <!-- <div class="dashboard-content">
          <div class="metrics-grid">
           <div class="metric-card">
             <div class="metric-header">
@@ -150,8 +143,8 @@
           </div>
         </div> -->
 
-        <!-- Two-column Layout -->
-        <!-- <div class="dashboard-grid">
+  <!-- Two-column Layout -->
+  <!-- <div class="dashboard-grid">
           <div class="left-column">
             <div class="card">
               <div class="card-header">
@@ -229,30 +222,29 @@
           </div>
         </div>
       </div> -->
-    </main>
+</main>
 
-    <script>
-      // Simple JavaScript to handle navigation active state
-      document.addEventListener('DOMContentLoaded', function () {
-        const navLinks = document.querySelectorAll('.nav-link');
+<script>
+  // Simple JavaScript to handle navigation active state
+  document.addEventListener('DOMContentLoaded', function () {
+    const navLinks = document.querySelectorAll('.nav-link');
 
-        navLinks.forEach((link) => {
-          link.addEventListener('click', function (e) {
-            e.preventDefault();
+    navLinks.forEach((link) => {
+      link.addEventListener('click', function (e) {
+        e.preventDefault();
 
-            // Remove active class from all links
-            navLinks.forEach((item) => item.classList.remove('active'));
+        // Remove active class from all links
+        navLinks.forEach((item) => item.classList.remove('active'));
 
-            // Add active class to clicked link
-            this.classList.add('active');
-          });
-        });
+        // Add active class to clicked link
+        this.classList.add('active');
       });
-      // highlight active menu link
-      document.querySelectorAll('.nav-link').forEach((link) => {
-        if (link.getAttribute('href') === window.location.pathname) {
-          link.classList.add('active');
-        }
-      });
-    </script>
-  
+    });
+  });
+  // highlight active menu link
+  document.querySelectorAll('.nav-link').forEach((link) => {
+    if (link.getAttribute('href') === window.location.pathname) {
+      link.classList.add('active');
+    }
+  });
+</script>
